@@ -93,16 +93,16 @@
         <h3>SiteMeshTask</h3>
         <p>The SiteMeshTask defines the following attributes:</p>
         <ol>
-            <li>destDir - The output folder in which all of the decorated files will be placed.</li>
-            <li>config - The location of the SiteMesh configuration file.</li>
-            <li>srcdir - The source directory which contains all of the files to be decorated.</li>
-            <li>includes - An Ant style filter of what files to include.</li>
-            <li>excludes - An Ant style filter of what files to exclude.</li>
+            <li><b><code>destdir</code></b> - The output folder in which all of the decorated files will be placed.</li>
+            <li><b><code>config</code></b> - The location of the SiteMesh configuration file.</li>
+            <li><b><code>srcdir</code></b> - The source directory which contains all of the files to be decorated.</li>
+            <li><b><code>includes</code></b> - An Ant style filter of what files to include.</li>
+            <li><b><code>excludes</code></b> - An Ant style filter of what files to exclude.</li>
         </ol>
         <p>The SiteMeshTask can also accept the following child nodes:</p>
         <ol>
-            <li>fileset - The standard Ant <a href="http://ant.apache.org/manual/CoreTypes/fileset.html">FileSet</a> that will use the srcdir of the sitemesh node.</li>
-            <li>sitemeshfileset - A custom SiteMesh FileSet that supports an additional attribute called "decorator" which can be used to associate a decorator with the
+            <li><b><code>fileset</code></b> - The standard Ant <a href="http://ant.apache.org/manual/CoreTypes/fileset.html">FileSet</a> that will use the srcdir of the sitemesh node.</li>
+            <li><b><code>sitemeshfileset</code></b> - A custom SiteMesh FileSet that supports an additional attribute called "decorator" which can be used to associate a decorator with the
                 given FileSet.</li>
         </ol>
 
