@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
 
@@ -21,6 +22,7 @@
     <module>sitemesh-docs</module>
     <module>sitemesh-tools-benchmark</module>
     <module>sitemesh-examples-hellowebapp</module>
+    <module>maven-sitemesh3-plugin</module>
   </modules>
 
   <developers>
