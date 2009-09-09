@@ -1,0 +1,17 @@
+<lifecycles>
+  <lifecycle>
+    <id>sitemesh-generate-resources</id>
+    <phases>
+      <phase>
+        <id>generate-resources</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sitemesh</goal> 
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+    </phases>
+  </lifecycle>
+</lifecycles>
