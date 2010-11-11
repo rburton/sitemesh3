@@ -2,6 +2,7 @@ package org.sitemesh.tagprocessor;
 
 import junit.framework.TestCase;
 
+import java.io.StringWriter;
 import java.nio.CharBuffer;
 import java.io.IOException;
 
@@ -31,6 +32,25 @@ public class TagTokenizerTest extends TestCase {
         handler.verify();
     }
 
+    public void testParsesMagicCommentBlocksEndProperly(){
+        String[] variations = new String[]{
+                                            "<!--[if gte mso 9]><stuff><![endif]-->" ,
+                                            "<!--[if IE 6]> Some Content <![endif]-->" ,
+                                            "<!--[if gt IE 6]> Some Content <![endif]-->",
+                                            "<!--[if (IE 6)|(IE 7)]> Some Content <![endif]-->",
+                                            "<!--[if lt Contoso 2]> Some Content <![endif]-->",
+                                            "<!--[if (gte IE 5.5)&(lt IE 7)]> Some Content <![endif]-->",
+                                            "<!--[if (gt IE 5)&(lt IE 7)]> Some Content <![endif]-->",
+                                            "<!--[if lt IE 5.5]> Some Content <![endif]-->"
+                                          };
+        for(String input : variations){
+            TagTokenizer.TokenHandler handler = new BufferTokenHandler();
+            TagTokenizer tokenizer = new TagTokenizer(CharBuffer.wrap(input), handler);
+            tokenizer.start();
+            assertEquals(input, handler.toString());
+        }
+    }
+          
     public void testDistinguishesBetweenOpenCloseAndEmptyTags() {
         // expectations
         handler.expectTag(Tag.Type.OPEN, "open");

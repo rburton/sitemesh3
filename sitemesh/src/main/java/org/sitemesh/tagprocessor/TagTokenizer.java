@@ -24,6 +24,15 @@ import java.nio.CharBuffer;
  */
 public class TagTokenizer {
 
+    /** The length of the trailing closing comment. "]--&gt;"; */
+    private static final int OPEN_CONDITIONAL_COMMENT_END_LENGTH = 4;
+
+    /** The length of the '&gt;' vs using a literal. */
+    private static final int GT_LENGTH = 1;
+
+    /** The length of an ending magic comment. ]&gt;*/
+    private static final int OPEN_CONDITIONAL_COMMENT_START_LENGTH = 2;
+
     /**
      * Handler that will receive callbacks as 'tags' and 'text' are encountered.
      */
@@ -252,15 +261,33 @@ public class TagTokenizer {
             }
         }
 
-        if (token == Token.GT) {
-            // Token ">" - YAY! end of tag.. process it!
-            parsedTag(type, name, start, lexer.position() - start + 1);
+        if (token == Token.GT) { // Token ">" - YAY! end of tag.. process it!
+            int length = calculateConsumption(type);
+            parsedTag(type, name, start, lexer.position() - start + length);
         } else if (token == Token.EOF) {
             parsedText(start, lexer.position()); // eof
         } else {
             reportError("Expected end of tag", lexer.line(), lexer.column());
             parsedTag(type, name, start, lexer.position() - start + 1);
         }
+    }
+
+    /**
+     * This function calculates the number of characters to consume when reaching the
+     * end of a tag. In the case of magic comments, the trailing character(s) will vary
+     * depending if it's an 'open conditional comment' e.g., &lt;!--[...]&gt; or
+     * 'close conditional comment' e.g., &lt;![endif]--&gt;.
+     * @param type The Tag type in question.
+     * @return The number of characters to consume until end of tag is reached.
+     */
+    private int calculateConsumption(Tag.Type type) {
+        int charactersToConsume = GT_LENGTH;
+        if(type == Tag.Type.CLOSE_CONDITIONAL_COMMENT) {
+            charactersToConsume = OPEN_CONDITIONAL_COMMENT_END_LENGTH;
+        }else if(type == Tag.Type.OPEN_CONDITIONAL_COMMENT){
+            charactersToConsume =  OPEN_CONDITIONAL_COMMENT_START_LENGTH;
+        }
+        return charactersToConsume;
     }
 
     private void parseAttribute() throws IOException {
